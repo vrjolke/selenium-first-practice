@@ -1,9 +1,11 @@
 package com.codecool.bence.selenium;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SeleniumTasksTest {
 
@@ -14,13 +16,62 @@ class SeleniumTasksTest {
         st = new SeleniumTasks();
     }
 
+
+
     @Test
-    void singleFieldAndButton() {
+    void testNavigateToSimpleForms() {
+        assertEquals("https://www.seleniumeasy.com/test/basic-first-form-demo.html", st.navigateToSimpleForms());
+    }
+    @Test
+    void testSingleFiendAndButton() {
+        assertEquals("Hello World", st.singleFiendAndButton("Hello World"));
+    }
+
+    @Test
+    void testTwoFieldsAndButton() {
         assertEquals("15", st.twoFieldsAndButton("5", "10"));
     }
 
     @Test
-    void singleFiendAndButton() {
-        assertEquals("Hello World", st.singleFiendAndButton("Hello World"));
+    void testTwoFieldsAndButtonWithLargeNumbers() {
+        assertEquals("10000000000000000000000", st.twoFieldsAndButton("5000000000000000000000", "5000000000000000000000"));
+    }
+
+    @Test
+    void testSingleCheckbox() {
+        assertEquals("Success - Check box is checked", st.singleCheckbox());
+    }
+
+    @Test
+    void multipleCheckboxCheckAll() {
+        assertEquals(true, st.multipleCheckboxCheckAll());
+    }
+
+    @Test
+    void multipleCheckboxUncheckAll() {
+        assertEquals(true, st.multipleCheckboxUncheckAll());
+    }
+
+    @Test
+    void multipleCheckboxUncheckOne() {
+        assertEquals("Check All", st.multipleCheckboxUncheckOne());
+    }
+
+    @Test
+    void testSelectList() {
+        assertEquals("Day selected :- Tuesday", st.selectList());
+    }
+
+    @Test
+    void testSelectListAlternative() {
+        assertEquals("Day selected :- Tuesday", st.selectListAlternative());
+    }
+
+    @Test
+    void testGroupRadioButtons() {
+        String[] expected = {"Sex : Male\n" +
+                "Age group: 0 - 5","Sex : Female\n" +
+                "Age group: 15 - 50"};
+        assertArrayEquals(expected, st.groupRadioButtons());
     }
 }
