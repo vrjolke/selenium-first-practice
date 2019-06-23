@@ -7,6 +7,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.Calendar;
 import java.util.List;
 
 public class SeleniumTasks {
@@ -143,8 +145,64 @@ public class SeleniumTasks {
         return results;
     }
 
+
     public String generateRadioButtonSelector(int row, int col){
         return "#easycont div.panel-body > div:nth-child("+row+") > label:nth-child("+col+") > input[type=radio]";
+    }
+
+
+    public int datePicker(int year, String month, int day){
+        driver.navigate().to("https://www.seleniumeasy.com/test/bootstrap-date-picker-demo.html");
+
+        driver.findElement(By.cssSelector("#sandbox-container1 > div > span")).click();
+        navigateTo(year, month);
+
+        List<WebElement> daysElements = driver.findElements(By.cssSelector("div.datepicker-days > table > tbody > tr > td"));
+        for(WebElement dayElement : daysElements){
+            if (dayElement.getAttribute("class").equals("day")) {
+                //System.out.println("Index: "+daysElements.indexOf(dayElement) % 7 + " Day: "+dayElement.getText());
+                if (dayElement.getText().equals(Integer.toString(day))) {
+                    return daysElements.indexOf(dayElement) % 7 + 1;
+                }
+            }
+
+        }
+        return -1;
+    }
+
+
+    public void navigateTo(int year, String month){
+        String selectorYearString = driver.findElement(By.cssSelector("body table > thead > tr:nth-child(2) > th.datepicker-switch")).getText();
+        int selectorYear = Integer.parseInt(selectorYearString.substring(selectorYearString.length()-4));
+
+            driver.findElement(By.cssSelector("div.datepicker-days th.datepicker-switch")).click();
+            while(selectorYear != year){
+                driver.findElement(By.cssSelector("div.datepicker-months > table > thead > tr:nth-child(2) > th.prev")).click();
+                selectorYearString = driver.findElement(By.cssSelector("body div.datepicker-months > table > thead > tr:nth-child(2) > th.datepicker-switch")).getText();
+                selectorYear = Integer.parseInt(selectorYearString.substring(selectorYearString.length()-4));
+            }
+
+        List<WebElement> monthElements = driver.findElements(By.cssSelector("div.datepicker-months > table > tbody > tr > td > span"));
+        for(WebElement monthElement : monthElements){
+            if (monthElement.getText().equals(month)) {
+                monthElement.click();
+                break;
+            }
+        }
+    }
+
+    public int sortAndSearchSum(){
+        driver.navigate().to("https://www.seleniumeasy.com/test/table-sort-search-demo.html");
+        Select dropdownDays = new Select(driver.findElement(By.cssSelector("#example_length > label > select")));
+        dropdownDays.selectByVisibleText("25");
+        int ageSum = 0;
+        List<WebElement> ageCells = driver.findElements(By.cssSelector("#example > tbody > tr > td:nth-child(4)"));
+
+        for(WebElement ageCell : ageCells){
+            ageSum += Integer.parseInt(ageCell.getText());
+        }
+
+        return ageSum;
     }
 
 }

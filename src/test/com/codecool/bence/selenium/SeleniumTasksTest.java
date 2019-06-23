@@ -16,12 +16,16 @@ class SeleniumTasksTest {
         st = new SeleniumTasks();
     }
 
-
+    @Test
+    void datePicker() {
+        assertEquals(1, st.datePicker(2019, "Jan", 14));
+    }
 
     @Test
     void testNavigateToSimpleForms() {
         assertEquals("https://www.seleniumeasy.com/test/basic-first-form-demo.html", st.navigateToSimpleForms());
     }
+
     @Test
     void testSingleFiendAndButton() {
         assertEquals("Hello World", st.singleFiendAndButton("Hello World"));
@@ -43,17 +47,17 @@ class SeleniumTasksTest {
     }
 
     @Test
-    void multipleCheckboxCheckAll() {
+    void testMultipleCheckboxCheckAll() {
         assertEquals(true, st.multipleCheckboxCheckAll());
     }
 
     @Test
-    void multipleCheckboxUncheckAll() {
+    void testMultipleCheckboxUncheckAll() {
         assertEquals(true, st.multipleCheckboxUncheckAll());
     }
 
     @Test
-    void multipleCheckboxUncheckOne() {
+    void testMultipleCheckboxUncheckOne() {
         assertEquals("Check All", st.multipleCheckboxUncheckOne());
     }
 
@@ -73,5 +77,11 @@ class SeleniumTasksTest {
                 "Age group: 0 - 5","Sex : Female\n" +
                 "Age group: 15 - 50"};
         assertArrayEquals(expected, st.groupRadioButtons());
+    }
+
+
+    @Test
+    void sortAndSearchSum() {
+        assertEquals(1164, st.sortAndSearchSum());
     }
 }
